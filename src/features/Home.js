@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
   },
   thenContainer: {
     flex: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center"
   },
   need: {
@@ -95,6 +97,8 @@ const styles = StyleSheet.create({
   },
   needContainer: {
     flex: 2,
+    flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     marginTop: -5
   },
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    padding: 18
+    padding: 17
   },
   text: {
     fontSize: 18,
