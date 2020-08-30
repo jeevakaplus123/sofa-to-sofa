@@ -36,7 +36,7 @@ const Info: () => React$Node = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, justifyContent: "center" }}>
             <View style={styles.flex2Container}>
               <Image  source={require('../images/1/1.png')} />
             </View>
