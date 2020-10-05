@@ -30,6 +30,7 @@ class ContactDetails extends React.Component {
   handleResponse = data => {
     if (data.title === "success") {
         this.setState({ showModal: false, status: "Complete" });
+        this.props.navigation.navigate('ContactForm')
     } else if (data.title === "cancel") {
         this.setState({ showModal: false, status: "Cancelled" });
     } else {
