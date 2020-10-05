@@ -9,7 +9,7 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  StatusBar,
+  Modal,
 } from 'react-native'
 
 import {
@@ -19,41 +19,70 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen'
-
+import { WebView } from 'react-native-webview'
 const { width, height } = Dimensions.get('window')
 
-const ContactDetails: () => React$Node = () => {
-  return (
-    <View style={styles.wrapper}>
-      <ImageBackground style={styles.container}
-        source={require('../images/page3/Page3.png')}>
-        <View style={styles.top}>
-          <View style={styles.logoContainer}>
-            <Image style={styles.logo} source={require('../images/logo/logo.png')} />
-          </View>
-          <View style={styles.welcomeContainer}>
-            <Image style={styles.welcome} source={require('../images/started/started.png')} />
-          </View>
-          <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => alert('PAYPAL')} style={styles.button}>
-          <View style={{flex: 1, alignItems: "center"}}><Image  style={{}} source={require('../images/paypal/paypal.png')} /></View>
-          <Text style={styles.buttonText}>PAYPAL</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.bottom}>
-        <View style={{ flex: 1 }} />
-          <View style={styles.gaeContainer}>
-            <Image  style={{marginTop: 5}} source={require('../images/gae/gae.png')} />
-            <Image  style={{alignSelf: "center", marginTop: -6}} source={require('../images/mail/mail.png')} />
-          </View>
-    <Text style={styles.text}>sofatosofa.com</Text>
-        </View>
+class ContactDetails extends React.Component {
+  state = {
+      showModal: false,
+      status: "Pending"
+  };
+  handleResponse = data => {
+    if (data.title === "success") {
+        this.setState({ showModal: false, status: "Complete" });
+    } else if (data.title === "cancel") {
+        this.setState({ showModal: false, status: "Cancelled" });
+    } else {
+        return;
+    }
+};
 
-      </ImageBackground>
-    </View>
-
-  )
+  render(){
+    return (
+      <View style={styles.wrapper}>
+        <Modal
+          visible={this.state.showModal}
+          onRequestClose={() => this.setState({ showModal: false })}
+        >
+          <WebView
+            source={{ uri: "https://sofa-to-sofa.herokuapp.com" }}
+            onNavigationStateChange={data =>
+              this.handleResponse(data)
+            }
+            injectedJavaScript={`document.f1.submit()`}
+          />
+        </Modal>
+        <ImageBackground style={styles.container}
+          source={require('../images/page3/Page3.png')}>
+          <View style={styles.top}>
+            <View style={styles.logoContainer}>
+              <Image style={styles.logo} source={require('../images/logo/logo.png')} />
+            </View>
+            <View style={styles.welcomeContainer}>
+              <Image style={styles.welcome} source={require('../images/started/started.png')} />
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={() => this.setState({ showModal: true })} style={styles.button}>
+                <View style={{ flex: 1, alignItems: "center" }}><Image style={{}} source={require('../images/paypal/paypal.png')} /></View>
+                <Text style={styles.buttonText}>PAYPAL</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.bottom}>
+            <View style={{ flex: 1 }} />
+            <View style={styles.gaeContainer}>
+              <Image style={{ marginTop: 5 }} source={require('../images/gae/gae.png')} />
+              <Image style={{ alignSelf: "center", marginTop: -6 }} source={require('../images/mail/mail.png')} />
+            </View>
+            <Text style={styles.text}>sofatosofa.com</Text>
+          </View>
+  
+        </ImageBackground>
+      </View>
+  
+    )
+  }
+  
 };
 
 const styles = StyleSheet.create({
@@ -124,8 +153,8 @@ const styles = StyleSheet.create({
     color: "#05139d"
   },
   text: {
-      color: "#1ec738",
-      textAlign: "center"
+    color: "#1ec738",
+    textAlign: "center"
   }
 });
 
