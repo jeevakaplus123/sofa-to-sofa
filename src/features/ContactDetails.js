@@ -63,7 +63,7 @@ class ContactDetails extends React.Component {
               <Image style={styles.welcome} source={require('../images/started/started.png')} />
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={() => this.setState({ showModal: true })} style={styles.button}>
+              <TouchableOpacity onPress={() => setTimeout(()=>this.setState({ showModal: true }), 1500) } style={styles.button}>
                 <View style={{ flex: 1, alignItems: "center" }}><Image style={{}} source={require('../images/paypal/paypal.png')} /></View>
                 <Text style={styles.buttonText}>PAYPAL</Text>
               </TouchableOpacity>
