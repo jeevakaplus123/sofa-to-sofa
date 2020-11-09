@@ -1,10 +1,15 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Route from "./src/routes"
-
-const App = () => {
-  return (
-    <Route/>
-  )
+import SplashScreen from 'react-native-splash-screen';
+class App extends Component {
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+  render(){
+    return (
+      <Route/>
+    )
+  }
 }
 
 export default App
