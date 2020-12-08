@@ -10,6 +10,8 @@ target 'sofatosofa' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'react-native-sms', :path => '../node_modules/react-native-sms'
+
   target 'sofatosofaTests' do
     inherit! :complete
     # Pods for testing

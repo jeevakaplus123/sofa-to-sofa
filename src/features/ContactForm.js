@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Input, Button } from "../components/reusable"
-var DirectSms = NativeModules.DirectSms
+import SendSMS from 'react-native-sms'
 
 
 class ContactForm extends React.Component {
@@ -22,29 +22,18 @@ class ContactForm extends React.Component {
 
   _onChange = (value, name) => this.setState({ message: value})
 
-  async sendDirectSms() {
-    try {
-        const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.SEND_SMS,
-            {
-                title: 'sofatosofa App Sms Permission',
-                message:
-                'sofatosofa App needs access to your inbox ' +
-                'so you can send messages in background.',
-                buttonNeutral: 'Ask Me Later',
-                buttonNegative: 'Cancel',
-                buttonPositive: 'OK',
-            },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            DirectSms.sendDirectSms('12144250009', this.state.message);
-        } else {
-            console.log('SMS permission denied');
-        }
-    } catch (err) {
-        console.warn(err);
-    }
-}
+  sendSMS = () => {
+    SendSMS.send({
+      body:  this.state.message,
+      recipients: ['2144250009'],
+      successTypes: ['sent', 'queued'],
+      allowAndroidSendWithoutReadPermission: true
+  }, (completed, cancelled, error) => {
+
+      console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+
+  });
+  }
 
   render(){
     
@@ -57,7 +46,7 @@ class ContactForm extends React.Component {
           placeholder="Enter your Message"
           name="text"
         />
-        <Button onPress={() => this.sendDirectSms()} isPrimary>
+        <Button onPress={() => this.sendSMS()} isPrimary>
       SUBMIT
     </Button>
       </View>
